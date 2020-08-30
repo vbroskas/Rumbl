@@ -1,0 +1,31 @@
+
+
+<h1>Create New User</h1>
+<%# form_for provides conveniences like security, UTF-8 encoding, and more: https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html#form_for/4 %>
+
+<%# The function takes three arguments: a changeset, a path, and an anonymous
+function. That function takes one argument, the form data we’re labeling f . We’re
+asking the template engine to build a function returning everything in the template
+between fn f -> and end . You can see the additional functions in play as well. These
+build two input fields and a submit tag. %>
+<%= form_for @changeset, Routes.user_path(@conn, :create), fn f -> %>
+<%# https://hexdocs.pm/ecto/Ecto.Changeset.html %>
+<%= if @changeset.action do %>
+<div class="alert alert-danger">
+<p>Oops, something went wrong! Please check the errors below.</p>
+</div>
+<% end %>
+<div>
+<%= text_input f, :name, placeholder: "Name" %>
+<%= error_tag f, :name %>
+</div>
+<div>
+<%= text_input f, :username, placeholder: "Username" %>
+<%= error_tag f, :username %>
+</div>
+<div>
+<%= password_input f, :password, placeholder: "Password" %>
+<%= error_tag f, :password %>
+</div>
+<%= submit "Create User" %>
+<% end %>

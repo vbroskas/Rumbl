@@ -16,10 +16,23 @@ defmodule RumblWeb.Router do
   scope "/", RumblWeb do
     pipe_through :browser
 
-    get "/users", UserController, :index
-    get "/users/:id", UserController, :show
+    # mix phx.routes to see all available routes!
 
     get "/", PageController, :index
+
+    """
+    user_path
+    get "/users", UserController, :index
+    get "/users/:id/edit", UserController, :edit
+    get "/users/new", UserController, :new
+    get "/users/:id", UserController, :show
+    post "/users", UserController, :create
+    patch "/users/:id", UserController, :update
+    put "/users/:id", UserController, :update
+    delete "/users/:id", UserController, :delete
+    """
+
+    resources "/users", UserController, only: [:index, :show, :new, :create]
   end
 
   # Other scopes may use custom stacks.

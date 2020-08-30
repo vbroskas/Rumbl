@@ -7,6 +7,14 @@ defmodule RumblWeb.ErrorView do
   #   "Internal Server Error"
   # end
 
+  def render("404.html", _assigns) do
+    "Page not found"
+  end
+
+  def render("500.html", _assigns) do
+    "Internal server error"
+  end
+
   # By default, Phoenix returns the status message from
   # the template name. For example, "404.html" becomes
   # "Not Found".
