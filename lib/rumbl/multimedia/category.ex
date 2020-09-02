@@ -16,6 +16,9 @@ defmodule Rumbl.Multimedia.Category do
     |> validate_required([:name])
   end
 
+  @doc """
+  must receive and return a queryable!
+  """
   def alphabetical(query) do
     from c in query, order_by: c.name
   end

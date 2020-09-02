@@ -10,6 +10,15 @@ defmodule Rumbl.Multimedia do
   alias Rumbl.Accounts
   alias Rumbl.Multimedia.Category
 
+  @doc """
+  makes call to Category schema
+  """
+  def list_alphabetical_categories do
+    Category
+    |> Category.alphabetical()
+    |> Repo.all()
+  end
+
   def create_category!(name) do
     # if there is a insertion conflic don't raise error
     Repo.insert!(%Category{name: name}, on_conflict: :nothing)
@@ -56,7 +65,7 @@ defmodule Rumbl.Multimedia do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_video(Accounts.User = user, attrs \\ %{}) do
+  def create_video(%Accounts.User{} = user, attrs \\ %{}) do
     %Video{}
     |> Video.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
