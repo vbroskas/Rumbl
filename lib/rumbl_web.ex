@@ -23,6 +23,9 @@ defmodule RumblWeb do
 
       import Plug.Conn
       import RumblWeb.Gettext
+      # share authenticate_user function across all controllers and routers
+      # New import
+      import RumblWeb.Auth, only: [authenticate_user: 2]
       alias RumblWeb.Router.Helpers, as: Routes
     end
   end
@@ -48,6 +51,9 @@ defmodule RumblWeb do
 
       import Plug.Conn
       import Phoenix.Controller
+      # share authenticate_user function across all routers
+      # New import
+      import RumblWeb.Auth, only: [authenticate_user: 2]
     end
   end
 

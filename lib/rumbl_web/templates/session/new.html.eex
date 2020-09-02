@@ -1,0 +1,21 @@
+
+<%# We use form_for as in our new-user forms, but instead of passing a changeset,
+we pass the %Plug.Conn{} struct. Plug.conn structs are useful when you’re creating
+forms that aren’t backed by a changeset, such as a login or search form. %>
+
+
+<%# :as - the server side parameter in which all params for this form will be collected (i.e. as: :user_params would mean all fields for this form will be accessed as conn.params.user_params server side). Automatically inflected when a changeset is given...
+https://hexdocs.pm/phoenix_html/Phoenix.HTML.Form.html#form_for/4 %>
+<h1>Login</h1>
+<%= form_for @conn,
+		Routes.session_path(@conn, :create),
+		[as: :session],
+		fn f -> %>
+<div>
+	<%= text_input f, :username, placeholder: "Username" %>
+</div>
+<div>
+	<%= password_input f, :password, placeholder: "Password" %>
+</div>
+	<%= submit "Log in" %>
+	<% end %>

@@ -4,6 +4,9 @@ defmodule RumblWeb.UserController do
   alias Rumbl.Accounts
   # User struct
   alias Rumbl.Accounts.User
+  # controller plugs
+  # Plug pipelines explicitly check for halted: true between every plug invocation, so the halting concern is neatly solved by Plug.
+  plug :authenticate_user when action in [:index, :show]
 
   def index(conn, _params) do
     users = Accounts.list_users()
@@ -29,13 +32,14 @@ defmodule RumblWeb.UserController do
   calls to accounts context to create a new user in DB
   """
   def create(conn, %{"user" => user_params}) do
-    # call into our context first, registering our user in the application.
+    # call context to insert new user into DB
     case Accounts.register_user(user_params) do
       {:ok, user} ->
-        # Then take connection and transform it twice, adding a flash message with the put_flash function, and then add a
-        # redirect instruction with the redirect function.
         conn
+        # authenticate new user (put them in session & conn assigns)
+        |> RumblWeb.Auth.login(user)
         |> put_flash(:info, "#{user.name} created!")
+        # redirect logged in user to index page
         |> redirect(to: Routes.user_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
